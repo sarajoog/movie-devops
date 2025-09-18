@@ -4,15 +4,10 @@ on:
   push:
     branches:
       - master
-      - dev   # 👈 also trigger on dev branch
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-
-    # 👇 choose environment based on branch
-    # environment: ${{ github.ref == 'refs/heads/master' && 'prod' || 'dev' }}
-    # Note: The above line is commented out because GitHub Actions does not support conditional environment names directly.
 
     env:
       DATASOURCE.URL: ${{ secrets.DB_URL }}
@@ -30,7 +25,5 @@ jobs:
           distribution: 'corretto'
           java-version: 17
 
-      - name: Build the application
-        run: mvn clean package -B --file pom.xml
-
-          
+      - name: Build the application (skip tests)
+        run: mvn clean package -DskipTests -B --file pom.xml

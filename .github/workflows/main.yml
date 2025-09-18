@@ -4,11 +4,21 @@ on:
   push:
     branches:
       - master
+      - dev   # 👈 also trigger on dev branch
 
 jobs:
   build-deploy:
-    name: Build and Deploy Spring boot app for beginner
     runs-on: ubuntu-latest
+
+    # 👇 choose environment based on branch
+    # environment: ${{ github.ref == 'refs/heads/master' && 'prod' || 'dev' }}
+
+    env:
+      DATASOURCE.URL: ${{ secrets.DB_URL }}
+      DATASOURCE.USERNAME: ${{ secrets.DB_USERNAME }}
+      DATASOURCE.PASSWORD: ${{ secrets.DB_PASSWORD }}
+      FRONTEND_URL: https://localhost:3000
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,7 +30,6 @@ jobs:
           java-version: 17
 
       - name: Build the application
-        run: |
-          mvn clean
-          mvn -B package --file pom.xml
+        run: mvn clean package -B --file pom.xml
+
           

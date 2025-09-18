@@ -12,6 +12,7 @@ jobs:
 
     # 👇 choose environment based on branch
     # environment: ${{ github.ref == 'refs/heads/master' && 'prod' || 'dev' }}
+    # Note: The above line is commented out because GitHub Actions does not support conditional environment names directly.
 
     env:
       DATASOURCE.URL: ${{ secrets.DB_URL }}

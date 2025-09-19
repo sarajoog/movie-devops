@@ -42,8 +42,4 @@ public class Movie {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @Version
-    private Long version;
-
-
 }
